@@ -19,6 +19,7 @@ public class AssertionFailedError extends AssertionError {
      * @param message the detail message. The detail message is saved for later 
      * retrieval by the {@code Throwable.getMessage()} method.
      */
+    //@ ensures \typeof(message) == \type(String);
     public AssertionFailedError(String message) {
         super(defaultString(message));
     }
