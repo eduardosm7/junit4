@@ -32,11 +32,13 @@ public abstract class Runner implements Describable {
      * @param notifier will be notified of events while tests are being run--tests being
      * started, finishing, and failing
      */
+    //@ requires \typeof(notifier) == \type(RunNotifier);
     public abstract void run(RunNotifier notifier);
 
     /**
      * @return the number of tests to be run by the receiver
      */
+    //@ ensures \typeof(\result) == \type(int);
     public int testCount() {
         return getDescription().testCount();
     }
