@@ -114,6 +114,7 @@ public class RunNotifier {
      * @param description the description of the suite test (generally a class name)
      * @since 4.13
      */
+    //@ requires \typeof(description) == \type(Description);
     public void fireTestSuiteStarted(final Description description) {
         new SafeNotifier() {
             @Override
@@ -131,6 +132,7 @@ public class RunNotifier {
      * @param description the description of the suite test (generally a class name)
      * @since 4.13
      */
+    //@ requires \typeof(description) == \type(Description);
     public void fireTestSuiteFinished(final Description description) {
         new SafeNotifier() {
             @Override
@@ -146,6 +148,8 @@ public class RunNotifier {
      * @param description the description of the atomic test (generally a class and method name)
      * @throws StoppedByUserException thrown if a user has requested that the test run stop
      */
+    //@ requires \typeof(description) == \type(Description);
+    //@ signals_only StoppedByUserException;
     public void fireTestStarted(final Description description) throws StoppedByUserException {
         if (pleaseStop) {
             throw new StoppedByUserException();
@@ -163,6 +167,7 @@ public class RunNotifier {
      *
      * @param failure the description of the test that failed and the exception thrown
      */
+    //@ requires \typeof(failure) == \type(Failure);
     public void fireTestFailure(Failure failure) {
         fireTestFailures(listeners, asList(failure));
     }
@@ -188,6 +193,7 @@ public class RunNotifier {
      * @param failure the description of the test that failed and the
      * {@link org.junit.AssumptionViolatedException} thrown
      */
+    //@ requires \typeof(failure) == \type(Failure);
     public void fireTestAssumptionFailed(final Failure failure) {
         new SafeNotifier() {
             @Override
@@ -202,6 +208,7 @@ public class RunNotifier {
      *
      * @param description the description of the ignored test
      */
+    //@ requires \typeof(description) == \type(Description);
     public void fireTestIgnored(final Description description) {
         new SafeNotifier() {
             @Override
@@ -218,6 +225,7 @@ public class RunNotifier {
      *
      * @param description the description of the test that finished
      */
+    //@ requires \typeof(description) == \type(Description);
     public void fireTestFinished(final Description description) {
         new SafeNotifier() {
             @Override
