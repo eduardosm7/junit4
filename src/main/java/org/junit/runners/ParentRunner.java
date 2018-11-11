@@ -69,12 +69,12 @@ public abstract class ParentRunner<T> extends Runner implements Filterable,
             new AnnotationsValidator());
 
     private final Lock childrenLock = new ReentrantLock();
-    private final TestClass testClass;
+    private /*@ spec_public @*/ final TestClass testClass;
 
     // Guarded by childrenLock
     private volatile List<T> filteredChildren = null;
 
-    private volatile RunnerScheduler scheduler = new RunnerScheduler() {
+    private /*@ spec_public @*/ volatile RunnerScheduler scheduler = new RunnerScheduler() {
         public void schedule(Runnable childStatement) {
             childStatement.run();
         }
@@ -323,6 +323,7 @@ public abstract class ParentRunner<T> extends Runner implements Filterable,
     /**
      * Returns a name used to describe this Runner
      */
+    //@ ensures \result == this.testClass.getName();
     protected String getName() {
         return testClass.getName();
     }
@@ -360,6 +361,7 @@ public abstract class ParentRunner<T> extends Runner implements Filterable,
      * @return the annotations that should be attached to this runner's
      *         description.
      */
+    //@ ensures \result == this.testClass.getAnnotations();
     protected Annotation[] getRunnerAnnotations() {
         return testClass.getAnnotations();
     }
@@ -527,6 +529,7 @@ public abstract class ParentRunner<T> extends Runner implements Filterable,
      * Sets a scheduler that determines the order and parallelization
      * of children.  Highly experimental feature that may change.
      */
+    //@ ensures this.scheduler == scheduler;
     public void setScheduler(RunnerScheduler scheduler) {
         this.scheduler = scheduler;
     }

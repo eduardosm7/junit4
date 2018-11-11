@@ -188,7 +188,7 @@ public class TestClass implements Annotatable {
     /**
      * Returns the class's name.
      */
-    public String getName() {
+    public /*@ pure @*/ String getName() {
         if (clazz == null) {
             return "null";
         }
@@ -209,7 +209,7 @@ public class TestClass implements Annotatable {
     /**
      * Returns the annotations on this class
      */
-    public Annotation[] getAnnotations() {
+    public /*@ pure @*/ Annotation[] getAnnotations() {
         if (clazz == null) {
             return new Annotation[0];
         }
