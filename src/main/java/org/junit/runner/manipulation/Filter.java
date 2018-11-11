@@ -44,6 +44,7 @@ public abstract class Filter {
      * Returns a {@code Filter} that only runs the single method described by
      * {@code desiredDescription}
      */
+    //@ ensures \typeof(\result) == \type(Filter);
     public static Filter matchMethodDescription(final Description desiredDescription) {
         return new Filter() {
             @Override
@@ -73,6 +74,7 @@ public abstract class Filter {
      * @param description the description of the test to be run
      * @return <code>true</code> if the test should be run
      */
+    //@ requires \typeof(description) == \type(Description);
     public abstract boolean shouldRun(Description description);
 
     /**
@@ -89,6 +91,7 @@ public abstract class Filter {
      * @param child the runner to be filtered by the receiver
      * @throws NoTestsRemainException if the receiver removes all tests
      */
+    //@ signals_only NoTestsRemainException;
     public void apply(Object child) throws NoTestsRemainException {
         if (!(child instanceof Filterable)) {
             return;
@@ -101,6 +104,7 @@ public abstract class Filter {
      * Returns a new Filter that accepts the intersection of the tests accepted
      * by this Filter and {@code second}
      */
+    //@ ensures \typeof(\result) == \type(Filter);
     public Filter intersect(final Filter second) {
         if (second == this || second == ALL) {
             return this;
