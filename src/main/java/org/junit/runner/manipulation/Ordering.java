@@ -52,6 +52,9 @@ public abstract class Ordering {
      * @param annotatedTestClass test class that is annotated with {@link OrderWith}.
      * @throws InvalidOrderingException if the instance could not be created
      */
+    //@ requires \typeof(annotatedTestClass) == \type(Description);
+    //@ signals_only InvalidOrderingException;
+    //@ ensures \typeof(\result) == \type(Ordering);
     public static Ordering definedBy(
             Class<? extends Ordering.Factory> factoryClass, Description annotatedTestClass)
             throws InvalidOrderingException {
@@ -85,6 +88,10 @@ public abstract class Ordering {
      * @param annotatedTestClass test class that is annotated with {@link OrderWith}.
      * @throws InvalidOrderingException if the instance could not be created
      */
+    //@ requires \typeof(factory) == \type(Ordering.Factory);
+    //@ requires \typeof(annotatedTestClass) == \type(Description);
+    //@ signals_only InvalidOrderingException;
+    //@ ensures \typeof(\result) == \type(Ordering);
     public static Ordering definedBy(
             Ordering.Factory factory, Description annotatedTestClass)
             throws InvalidOrderingException {
@@ -112,6 +119,7 @@ public abstract class Ordering {
      * @throws InvalidOrderingException if ordering does something invalid (like remove or add
      * children)
      */
+    //@ signals_only InvalidOrderingException;
     public void apply(Object target) throws InvalidOrderingException {
         /*
          * Note that some subclasses of Ordering override apply(). The Sorter
@@ -141,11 +149,12 @@ public abstract class Ordering {
 
     /** Context about the ordering being applied. */
     public static class Context {
-        private final Description description;
+        private /*@ spec_public @*/ final Description description;
 
         /**
          * Gets the description for the top-level target being ordered.
          */
+        //@ ensures \result == this.description;
         public Description getTarget() {
             return description;
         }
