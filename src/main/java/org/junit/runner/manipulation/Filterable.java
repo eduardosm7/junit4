@@ -14,6 +14,8 @@ public interface Filterable {
      * @param filter the {@link Filter} to apply
      * @throws NoTestsRemainException if all tests are filtered out
      */
+    //@ requires \typeof(filter) == \type(Filter);
+    //@ signals_only NoTestsRemainException;
     void filter(Filter filter) throws NoTestsRemainException;
 
 }
