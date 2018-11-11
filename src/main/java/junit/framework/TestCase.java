@@ -78,7 +78,7 @@ public abstract class TestCase extends Assert implements Test {
     /**
      * the name of the test case
      */
-    private String fName;
+    private /*@ spec_public @*/ String fName;
 
     /**
      * No-arg constructor to enable serialization. This method
@@ -91,6 +91,8 @@ public abstract class TestCase extends Assert implements Test {
     /**
      * Constructs a test case with the given name.
      */
+    //@ ensures \typeof(name) == \type(String);
+    //@ ensures this.fName == name;
     public TestCase(String name) {
         fName = name;
     }
@@ -107,6 +109,7 @@ public abstract class TestCase extends Assert implements Test {
      *
      * @see TestResult
      */
+    //@ ensures \typeof(\result) == \type(TestResult);
     protected TestResult createResult() {
         return new TestResult();
     }
@@ -135,6 +138,7 @@ public abstract class TestCase extends Assert implements Test {
      *
      * @throws Throwable if any exception is thrown
      */
+    //@ signals (Exception);
     public void runBare() throws Throwable {
         Throwable exception = null;
         setUp();
@@ -157,6 +161,7 @@ public abstract class TestCase extends Assert implements Test {
      *
      * @throws Throwable if any exception is thrown
      */
+    //@ signals (Exception);
     protected void runTest() throws Throwable {
         assertNotNull("TestCase.fName cannot be null", fName); // Some VMs crash when calling getMethod(null,null);
         Method runMethod = null;
@@ -484,6 +489,7 @@ public abstract class TestCase extends Assert implements Test {
     /**
      * Returns a string representation of the test case.
      */
+    //@ also ensures \typeof(\result) == \type(String);
     @Override
     public String toString() {
         return getName() + "(" + getClass().getName() + ")";
@@ -494,6 +500,7 @@ public abstract class TestCase extends Assert implements Test {
      *
      * @return the name of the TestCase
      */
+    //@ ensures \result == this.fName;
     public String getName() {
         return fName;
     }
@@ -503,6 +510,7 @@ public abstract class TestCase extends Assert implements Test {
      *
      * @param name the name to set
      */
+    //@ ensures this.fName == name;
     public void setName(String name) {
         fName = name;
     }
