@@ -15,15 +15,17 @@ import org.junit.runner.Description;
  * @since 4.0
  */
 public class Failure implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private /*@ spec_public @*/ static final long serialVersionUID = 1L;
 
     /*
      * We have to use the f prefix until the next major release to ensure
      * serialization compatibility. 
      * See https://github.com/junit-team/junit4/issues/976
      */
-    private final Description fDescription;
-    private final Throwable fThrownException;
+    private /*@ spec_public @*/ final Description fDescription;
+    private /*@ spec_public @*/ final Throwable fThrownException;
+
+    //@ invariant this.serialVersionUID == 1L;
 
     /**
      * Constructs a <code>Failure</code> with the given description and exception.
@@ -31,6 +33,8 @@ public class Failure implements Serializable {
      * @param description a {@link org.junit.runner.Description} of the test that failed
      * @param thrownException the exception that was thrown while running the test
      */
+    //@ ensures this.fDescription == description;
+    //@ ensures this.fThrownException == thrownException;
     public Failure(Description description, Throwable thrownException) {
         this.fThrownException = thrownException;
         this.fDescription = description;
@@ -39,6 +43,7 @@ public class Failure implements Serializable {
     /**
      * @return a user-understandable label for the test
      */
+    //@ ensures \result == fDescription.getDisplayName();
     public String getTestHeader() {
         return fDescription.getDisplayName();
     }
@@ -46,6 +51,7 @@ public class Failure implements Serializable {
     /**
      * @return the raw description of the context of the failure.
      */
+    //@ ensures \result == fDescription;
     public Description getDescription() {
         return fDescription;
     }
@@ -53,8 +59,8 @@ public class Failure implements Serializable {
     /**
      * @return the exception thrown
      */
-
-    public Throwable getException() {
+    //@ ensures \result == fThrownException;
+    public /*@ pure @*/ Throwable getException() {
         return fThrownException;
     }
 
@@ -84,6 +90,7 @@ public class Failure implements Serializable {
      *
      * @return the message of the thrown exception
      */
+    //@ ensures \result == getException().getMessage();
     public String getMessage() {
         return getException().getMessage();
     }

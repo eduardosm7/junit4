@@ -180,7 +180,7 @@ public class Description implements Serializable {
     /**
      * @return a user-understandable label
      */
-    public String getDisplayName() {
+    public /*@ pure @*/ String getDisplayName() {
         return fDisplayName;
     }
 
