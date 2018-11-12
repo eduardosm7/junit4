@@ -18,6 +18,8 @@ class FilterFactories {
      * @param filterSpec the filter specification
      * @throws org.junit.runner.FilterFactory.FilterNotCreatedException
      */
+    //@ requires \typeof(request) == \type(Request);
+    //@ requires \typeof(filterSpec) == \type(String);
     public static Filter createFilterFromFilterSpec(Request request, String filterSpec)
             throws FilterFactory.FilterNotCreatedException {
         Description topLevelDescription = request.getRunner().getDescription();
@@ -38,6 +40,8 @@ class FilterFactories {
      * @param filterFactoryFqcn The fully qualified class name of the {@link FilterFactory}
      * @param params The arguments to the {@link FilterFactory}
      */
+    //@ requires \typeof(filterFactoryFqcn) == \type(String);
+    //@ requires \typeof(params) == \type(FilterFactoryParams);
     public static Filter createFilter(String filterFactoryFqcn, FilterFactoryParams params)
             throws FilterFactory.FilterNotCreatedException {
         FilterFactory filterFactory = createFilterFactory(filterFactoryFqcn);
@@ -52,6 +56,7 @@ class FilterFactories {
      * @param params             The arguments to the {@link FilterFactory}
      *
      */
+    //@ requires \typeof(params) == \type(FilterFactoryParams);
     public static Filter createFilter(Class<? extends FilterFactory> filterFactoryClass, FilterFactoryParams params)
             throws FilterFactory.FilterNotCreatedException {
         FilterFactory filterFactory = createFilterFactory(filterFactoryClass);
