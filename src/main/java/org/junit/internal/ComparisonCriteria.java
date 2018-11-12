@@ -23,6 +23,9 @@ public abstract class ComparisonCriteria {
      * @param actuals Object array or array of arrays (multi-dimensional array) with
      * actual values
      */
+    //@ requires \typeof(message) == \type(String);
+    //@ requires \typeof(expecteds) == \type(Array);
+    //@ requires \typeof(actuals) == \type(Array);
     public void arrayEquals(String message, Object expecteds, Object actuals)
             throws ArrayComparisonFailure {
         arrayEquals(message, expecteds, actuals, true);
