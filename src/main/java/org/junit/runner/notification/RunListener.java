@@ -57,6 +57,7 @@ public class RunListener {
      *
      * @param description describes the tests to be run
      */
+    //@ requires \typeof(description) == \type(Description);
     public void testRunStarted(Description description) throws Exception {
     }
 
@@ -66,6 +67,7 @@ public class RunListener {
      *
      * @param result the summary of the test run, including all the tests that failed
      */
+    //@ requires \typeof(result) == \type(Result);
     public void testRunFinished(Result result) throws Exception {
     }
 
@@ -83,6 +85,7 @@ public class RunListener {
      *                    (generally a class name)
      * @since 4.13
      */
+    //@ requires \typeof(description) == \type(Description);
     public void testSuiteStarted(Description description) throws Exception {
     }
 
@@ -94,6 +97,7 @@ public class RunListener {
      * @param description the description of the test suite that just ran
      * @since 4.13
      */
+    //@ requires \typeof(description) == \type(Description);
     public void testSuiteFinished(Description description) throws Exception {
     }
 
@@ -103,6 +107,7 @@ public class RunListener {
      * @param description the description of the test that is about to be run
      * (generally a class and method name)
      */
+    //@ requires \typeof(description) == \type(Description);
     public void testStarted(Description description) throws Exception {
     }
 
@@ -111,6 +116,7 @@ public class RunListener {
      *
      * @param description the description of the test that just ran
      */
+    //@ requires \typeof(description) == \type(Description);
     public void testFinished(Description description) throws Exception {
     }
 
@@ -128,6 +134,7 @@ public class RunListener {
      *
      * @param failure describes the test that failed and the exception that was thrown
      */
+    //@ requires \typeof(failure) == \type(Failure);
     public void testFailure(Failure failure) throws Exception {
     }
 
@@ -138,6 +145,7 @@ public class RunListener {
      * @param failure describes the test that failed and the
      * {@link org.junit.AssumptionViolatedException} that was thrown
      */
+    //@ requires \typeof(failure) == \type(Failure);
     public void testAssumptionFailure(Failure failure) {
     }
 
@@ -147,6 +155,7 @@ public class RunListener {
      *
      * @param description describes the test that will not be run
      */
+    //@ requires \typeof(description) == \type(Description);
     public void testIgnored(Description description) throws Exception {
     }
 
