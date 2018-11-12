@@ -41,6 +41,9 @@ public class Description implements Serializable {
      * @param annotations meta-data about the test, for downstream interpreters
      * @return a <code>Description</code> named <code>name</code>
      */
+    //@ requires \typeof(name) == \type(String);
+    //@ requires \typeof(annotations) == \type(Annotation);
+    //@ ensures \typeof(\result) == \type(Description);
     public static Description createSuiteDescription(String name, Annotation... annotations) {
         return new Description(null, name, annotations);
     }
@@ -54,6 +57,10 @@ public class Description implements Serializable {
      * @param annotations meta-data about the test, for downstream interpreters
      * @return a <code>Description</code> named <code>name</code>
      */
+    //@ requires \typeof(name) == \type(String);
+    //@ requires \typeof(uniqueId) == \type(Serializable);
+    //@ requires \typeof(annotations) == \type(Annotation);
+    //@ ensures \typeof(\result) == \type(Description);
     public static Description createSuiteDescription(String name, Serializable uniqueId, Annotation... annotations) {
         return new Description(null, name, uniqueId, annotations);
     }
@@ -69,6 +76,10 @@ public class Description implements Serializable {
      * @param annotations meta-data about the test, for downstream interpreters
      * @return a <code>Description</code> named <code>name</code>
      */
+    //@ requires \typeof(className) == \type(String);
+    //@ requires \typeof(name) == \type(String);
+    //@ requires \typeof(annotations) == \type(Annotation);
+    //@ ensures \typeof(\result) == \type(Description);
     public static Description createTestDescription(String className, String name, Annotation... annotations) {
         return new Description(null, formatDisplayName(name, className), annotations);
     }
@@ -82,6 +93,9 @@ public class Description implements Serializable {
      * @param annotations meta-data about the test, for downstream interpreters
      * @return a <code>Description</code> named <code>name</code>
      */
+    //@ requires \typeof(name) == \type(String);
+    //@ requires \typeof(annotations) == \type(Annotation);
+    //@ ensures \typeof(\result) == \type(Description);
     public static Description createTestDescription(Class<?> clazz, String name, Annotation... annotations) {
         return new Description(clazz, formatDisplayName(name, clazz.getName()), annotations);
     }
@@ -95,6 +109,8 @@ public class Description implements Serializable {
      * @param name the name of the test (a method name for test annotated with {@link org.junit.Test})
      * @return a <code>Description</code> named <code>name</code>
      */
+    //@ requires \typeof(name) == \type(String);
+    //@ ensures \typeof(\result) == \type(Description);
     public static Description createTestDescription(Class<?> clazz, String name) {
         return new Description(clazz, formatDisplayName(name, clazz.getName()));
     }
@@ -106,6 +122,8 @@ public class Description implements Serializable {
      * @param name the name of the test (a method name for test annotated with {@link org.junit.Test})
      * @return a <code>Description</code> named <code>name</code>
      */
+    //@ requires \typeof(name) == \type(String);
+    //@ ensures \typeof(\result) == \type(Description);
     public static Description createTestDescription(String className, String name, Serializable uniqueId) {
         return new Description(null, formatDisplayName(name, className), uniqueId);
     }
@@ -120,6 +138,7 @@ public class Description implements Serializable {
      * @param testClass A {@link Class} containing tests
      * @return a <code>Description</code> of <code>testClass</code>
      */
+    //@ ensures \typeof(\result) == \type(Description);
     public static Description createSuiteDescription(Class<?> testClass) {
         return new Description(testClass, testClass.getName(), testClass.getAnnotations());
     }
@@ -131,6 +150,8 @@ public class Description implements Serializable {
      * @param annotations meta-data about the test, for downstream interpreters
      * @return a <code>Description</code> of <code>testClass</code>
      */
+    //@ requires \typeof(annotations) == \type(Annotation);
+    //@ ensures \typeof(\result) == \type(Description);
     public static Description createSuiteDescription(Class<?> testClass, Annotation... annotations) {
         return new Description(testClass, testClass.getName(), annotations);
     }
@@ -153,9 +174,9 @@ public class Description implements Serializable {
      * See https://github.com/junit-team/junit4/issues/976
      */
     private final Collection<Description> fChildren = new ConcurrentLinkedQueue<Description>();
-    private final String fDisplayName;
-    private final Serializable fUniqueId;
-    private final Annotation[] fAnnotations;
+    private /*@ spec_public @*/ final String fDisplayName;
+    private /*@ spec_public @*/ final Serializable fUniqueId;
+    private /*@ spec_public @*/ final Annotation[] fAnnotations;
     private volatile /* write-once */ Class<?> fTestClass;
 
     private Description(Class<?> clazz, String displayName, Annotation... annotations) {
@@ -180,6 +201,7 @@ public class Description implements Serializable {
     /**
      * @return a user-understandable label
      */
+    //@ ensures \result == fDisplayName;
     public /*@ pure @*/ String getDisplayName() {
         return fDisplayName;
     }
@@ -189,6 +211,7 @@ public class Description implements Serializable {
      *
      * @param description the soon-to-be child.
      */
+    //@ requires \typeof(description) == \type(Description);
     public void addChild(Description description) {
         fChildren.add(description);
     }
@@ -197,6 +220,7 @@ public class Description implements Serializable {
      * Gets the copy of the children of this {@code Description}.
      * Returns an empty list if there are no children.
      */
+    //@ ensures \typeof(\result) == \type(ArrayList<Description>);
     public ArrayList<Description> getChildren() {
         return new ArrayList<Description>(fChildren);
     }
@@ -204,6 +228,7 @@ public class Description implements Serializable {
     /**
      * @return <code>true</code> if the receiver is a suite
      */
+    //@ ensures \typeof(\result) == \type(boolean);
     public boolean isSuite() {
         return !isTest();
     }
@@ -211,6 +236,7 @@ public class Description implements Serializable {
     /**
      * @return <code>true</code> if the receiver is an atomic test
      */
+    //@ ensures \typeof(\result) == \type(boolean);
     public boolean isTest() {
         return fChildren.isEmpty();
     }
@@ -218,6 +244,7 @@ public class Description implements Serializable {
     /**
      * @return the total number of atomic tests in the receiver
      */
+    //@ ensures \typeof(\result) == \type(int);
     public int testCount() {
         if (isTest()) {
             return 1;
@@ -251,6 +278,7 @@ public class Description implements Serializable {
     /**
      * @return true if this is a description of a Runner that runs no tests
      */
+    //@ ensures \typeof(\result) == \type(boolean);
     public boolean isEmpty() {
         return equals(EMPTY);
     }
@@ -259,6 +287,7 @@ public class Description implements Serializable {
      * @return a copy of this description, with no children (on the assumption that some of the
      *         children will be added back)
      */
+    //@ ensures \typeof(\result) == \type(Description);
     public Description childlessCopy() {
         return new Description(fTestClass, fDisplayName, fAnnotations);
     }
@@ -279,6 +308,7 @@ public class Description implements Serializable {
     /**
      * @return all of the annotations attached to this description node
      */
+    //@ ensures (\typeof(\result) == \type(Collection<Annotation>));
     public Collection<Annotation> getAnnotations() {
         return Arrays.asList(fAnnotations);
     }
@@ -307,6 +337,7 @@ public class Description implements Serializable {
      * @return If this describes a method invocation,
      *         the name of the class of the test instance
      */
+    //@ ensures \typeof(\result) == \type(String);
     public String getClassName() {
         return fTestClass != null ? fTestClass.getName() : methodAndClassNamePatternGroupOrDefault(2, toString());
     }
@@ -315,6 +346,7 @@ public class Description implements Serializable {
      * @return If this describes a method invocation,
      *         the name of the method (or null if not)
      */
+    //@ ensures (\typeof(\result) == \type(String)) || (\result == null);
     public String getMethodName() {
         return methodAndClassNamePatternGroupOrDefault(1, null);
     }
