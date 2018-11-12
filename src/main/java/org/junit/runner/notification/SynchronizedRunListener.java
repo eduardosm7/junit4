@@ -52,6 +52,8 @@ final class SynchronizedRunListener extends RunListener {
      * @throws Exception if any occurs.
      * @since 4.13
      */
+    //@ also ensures \typeof(description) == \type(Description);
+    //@ also signals_only Exception;
     @Override
     public void testSuiteStarted(Description description) throws Exception {
         synchronized (monitor) {
@@ -67,6 +69,8 @@ final class SynchronizedRunListener extends RunListener {
      * @throws Exception
      * @since 4.13
      */
+    //@ also ensures \typeof(description) == \type(Description);
+    //@ also signals_only Exception;
     @Override
     public void testSuiteFinished(Description description) throws Exception {
         synchronized (monitor) {
