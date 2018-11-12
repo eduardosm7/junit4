@@ -130,6 +130,7 @@ public class JUnit38ClassRunner extends Runner implements Filterable, Orderable 
      * Get the annotations associated with given TestCase.
      * @param test the TestCase.
      */
+    //@ requires \typeof(test) == \type(TestCase);
     private static Annotation[] getAnnotations(TestCase test) {
         try {
             Method m = test.getClass().getMethod(test.getName());
