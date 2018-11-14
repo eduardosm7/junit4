@@ -18,6 +18,7 @@ abstract class CategoryFilterFactory implements FilterFactory {
      *
      * @param params Parameters needed to create the {@link Filter}
      */
+    //@ also requires \typeof(params) == \type(FilterFactoryParams);
     public Filter createFilter(FilterFactoryParams params) throws FilterNotCreatedException {
         try {
             return createFilter(parseCategories(params.getArgs()));
