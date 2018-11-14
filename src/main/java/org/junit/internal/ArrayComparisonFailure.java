@@ -31,6 +31,8 @@ public class ArrayComparisonFailure extends AssertionError {
      * @param index the array position of the objects that are not equal.
      * @see Assert#assertArrayEquals(String, Object[], Object[])
      */
+    //@ requires \typeof(cause) == \type(AssertionError);
+    //@ requires index >= 0;
     public ArrayComparisonFailure(String message, AssertionError cause, int index) {
         this.fMessage = message;
         this.fCause = cause;
