@@ -40,6 +40,8 @@ public final class CategoryValidator extends AnnotationValidator {
      *
      * @since 4.12
      */
+    //@ also requires \typeof(method) == \type(FrameworkMethod);
+    //@ also ensures \typeof(\result) == \type(List<Exception>);
     @Override
     public List<Exception> validateAnnotatedMethod(FrameworkMethod method) {
         List<Exception> errors = new ArrayList<Exception>();
