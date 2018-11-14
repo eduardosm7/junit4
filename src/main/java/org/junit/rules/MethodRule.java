@@ -28,5 +28,8 @@ public interface MethodRule {
      * @return a new statement, which may be the same as {@code base},
      *         a wrapper around {@code base}, or a completely new Statement.
      */
+    //@ requires \typeof(base) == \type(Statement);
+    //@ requires \typeof(method) == \type(FrameworkMethod);
+    //@ requires \typeof(target) == \type(Object);
     Statement apply(Statement base, FrameworkMethod method, Object target);
 }
