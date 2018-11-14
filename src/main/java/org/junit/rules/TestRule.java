@@ -52,5 +52,7 @@ public interface TestRule {
      * @return a new statement, which may be the same as {@code base},
      *         a wrapper around {@code base}, or a completely new Statement.
      */
+    //@ requires \typeof(base) == \type(Statement);
+    //@ requires \typeof(description) == \type(Description);
     Statement apply(Statement base, Description description);
 }
