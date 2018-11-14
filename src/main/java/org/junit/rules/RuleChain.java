@@ -71,6 +71,7 @@ public class RuleChain implements TestRule {
      *
      * @return a {@code RuleChain} without a {@link TestRule}.
      */
+    //@ ensures \typeof(\result) == \type(RuleChain);
     public static RuleChain emptyRuleChain() {
         return EMPTY_CHAIN;
     }
@@ -82,6 +83,8 @@ public class RuleChain implements TestRule {
      * @param outerRule the outer rule of the {@code RuleChain}.
      * @return a {@code RuleChain} with a single {@link TestRule}.
      */
+    //@ requires \typeof(outerRule) == \type(TestRule);
+    //@ ensures \typeof(\result) == \type(RuleChain);
     public static RuleChain outerRule(TestRule outerRule) {
         return emptyRuleChain().around(outerRule);
     }
@@ -98,6 +101,9 @@ public class RuleChain implements TestRule {
      * @return a new {@code RuleChain}.
      * @throws NullPointerException if the argument {@code enclosedRule} is {@code null}
      */
+    //@ requires \typeof(enclosedRule) == \type(TestRule);
+    //@ ensures \typeof(\result) == \type(RuleChain);
+    //@ signals_only NullPointerException;
     public RuleChain around(TestRule enclosedRule) {
         if (enclosedRule == null) {
             throw new NullPointerException("The enclosed rule must not be null");
