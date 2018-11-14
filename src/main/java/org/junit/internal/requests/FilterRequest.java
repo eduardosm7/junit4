@@ -10,13 +10,13 @@ import org.junit.runner.manipulation.NoTestsRemainException;
  * A filtered {@link Request}.
  */
 public final class FilterRequest extends Request {
-    private final Request request;
+    private /*@ spec_public @*/ final Request request;
     /*
      * We have to use the f prefix, because IntelliJ's JUnit4IdeaTestRunner uses
      * reflection to access this field. See
      * https://github.com/junit-team/junit4/issues/960
      */
-    private final Filter fFilter;
+    private /*@ spec_public @*/ final Filter fFilter;
 
     /**
      * Creates a filtered Request
@@ -25,6 +25,8 @@ public final class FilterRequest extends Request {
      * @param filter {@link Filter} to apply to the Tests described in
      * <code>request</code>
      */
+    //@ ensures this.request == request;
+    //@ ensures this.fFilter == filter;
     public FilterRequest(Request request, Filter filter) {
         this.request = request;
         this.fFilter = filter;
