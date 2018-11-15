@@ -17,5 +17,7 @@ public interface TestClassValidator {
      *            the {@link TestClass} that is validated.
      * @return the validation errors found by the validator.
      */
+    //@ requires \typeof(testClass) == \type(TestClass);
+    //@ ensures \typeof(\result) == \type(List<Exception>);
     List<Exception> validateTestClass(TestClass testClass);
 }
